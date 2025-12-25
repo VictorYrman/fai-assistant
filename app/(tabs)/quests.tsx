@@ -1,11 +1,14 @@
 // Atoms Components
-import ParagraphAtom from "@/components/atoms/ParagraphAtom";
 import ButtonAtom from "@/components/atoms/ButtonAtom";
+import ParagraphAtom from "@/components/atoms/ParagraphAtom";
+
+// Molecules Components
+import InfoCard from "@/components/molecules/InfoCard";
 
 // External Dependencies
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { ScrollView, View } from "react-native";
-import { useRouter } from "expo-router";
 
 // Hooks
 import { useSurvey } from "@/hooks/useSurvey";
@@ -32,18 +35,18 @@ export default function Quests() {
       ]}
     >
       {!surveyInfo ? (
-        <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
+        <InfoCard>
           <ParagraphAtom>
             Для того, чтобы получить список квестов, вам нужно пройти базовый
             опрос, который соберет основные данные, на основе которых мы
-            составим для вас программу тренировок
+            составим для вас программу тренировок!
           </ParagraphAtom>
           <ButtonAtom
             title="Пройти опрос"
             type="primary"
             onPress={onClickEnterSurvey}
           />
-        </View>
+        </InfoCard>
       ) : (
         <View>
           <ParagraphAtom>Тут должны быть квесты</ParagraphAtom>
