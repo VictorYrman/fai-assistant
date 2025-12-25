@@ -8,7 +8,7 @@ import InfoCard from "@/components/molecules/InfoCard";
 
 // External Dependencies
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollView, View } from "react-native";
 
 // Hooks
@@ -16,11 +16,17 @@ import { useSurvey } from "@/hooks/useSurvey";
 
 // Assets
 import GlobalStyles from "@/assets/styles/global/GlobalStyles";
+import ExerciseCard from "@/components/molecules/ExerciseCard";
 
 export default function Index() {
   const router = useRouter();
   const survey = useSurvey();
   const [surveyInfo, setSurveyInfo] = useState(survey.getSurveyInfo());
+
+  useEffect(() => {
+    const newSurveyInfo = survey.getSurveyInfo();
+    setSurveyInfo(newSurveyInfo);
+  }, [survey]);
 
   const onClickEnterSurvey = () => {
     router.replace("/survey/gender");
