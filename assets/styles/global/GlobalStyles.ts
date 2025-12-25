@@ -1,4 +1,8 @@
+// External Dependencies
 import { StyleSheet } from "react-native";
+
+// Constants
+import Colors from "@/constants/colors";
 
 const GlobalStyles = StyleSheet.create({
   container: {
@@ -22,6 +26,15 @@ const GlobalStyles = StyleSheet.create({
   contentVertical: {
     flexDirection: "column",
   },
+  fwSemiBold: {
+    fontWeight: 600
+  },
+  fwBold: {
+    fontWeight: 700
+  },
+  textPrimary: {
+    color: Colors.primary
+  }
 });
 
 export default GlobalStyles;

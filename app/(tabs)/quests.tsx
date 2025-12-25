@@ -36,7 +36,9 @@ export default function Quests() {
     >
       {!surveyInfo ? (
         <InfoCard>
-          <ParagraphAtom>
+          <ParagraphAtom
+            style={[GlobalStyles.fwSemiBold, GlobalStyles.textPrimary]}
+          >
             Для того, чтобы получить список квестов, вам нужно пройти базовый
             опрос, который соберет основные данные, на основе которых мы
             составим для вас программу тренировок!

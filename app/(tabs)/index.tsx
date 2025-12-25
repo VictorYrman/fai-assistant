@@ -61,7 +61,9 @@ export default function Index() {
       <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
         <HeadingAtom level={"second"}>Список ваших квестов</HeadingAtom>
         <InfoCard>
-          <ParagraphAtom>
+          <ParagraphAtom
+            style={[GlobalStyles.fwSemiBold, GlobalStyles.textPrimary]}
+          >
             У вас нет активных квестов. Пройдите опрос, чтобы получить
             персональные рекомендации!
           </ParagraphAtom>
