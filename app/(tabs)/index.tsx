@@ -16,7 +16,6 @@ import { useSurvey } from "@/hooks/useSurvey";
 
 // Assets
 import GlobalStyles from "@/assets/styles/global/GlobalStyles";
-import ExerciseCard from "@/components/molecules/ExerciseCard";
 
 export default function Index() {
   const router = useRouter();

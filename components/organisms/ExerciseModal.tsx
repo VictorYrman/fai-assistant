@@ -1,20 +1,22 @@
 // Atoms Components
-import HeadingAtom from "../atoms/HeadingAtom";
-import ParagraphAtom from "../atoms/ParagraphAtom";
 import ButtonAtom from "../atoms/ButtonAtom";
+import HeadingAtom from "../atoms/HeadingAtom";
 import MuscleIconAtom from "../atoms/MuscleIconAtom";
+import ParagraphAtom from "../atoms/ParagraphAtom";
 
 // External Dependencies
-import { Modal, Pressable, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Image } from "expo-image";
+import { useState } from "react";
+import { Modal, Pressable, View } from "react-native";
 
 // Constants
 import Colors from "@/constants/colors";
 
 // Assets
-import GlobalStyles from "@/assets/styles/global/GlobalStyles";
 import ExerciseModalStyles from "@/assets/styles/components/organisms/ExerciseModal";
+import GlobalStyles from "@/assets/styles/global/GlobalStyles";
+import MuscleModal from "./MuscleModal";
 
 type CategoryObject = {
   id: number;
@@ -46,63 +48,86 @@ export default function ExerciseModal({
   visible,
   onClose,
 }: ExerciseModalProps) {
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [selectedMuscle, setSelectedMuscle] = useState<MuscleObject | null>(
+    null
+  );
+
   return (
-    <Modal animationType="slide" visible={visible} onRequestClose={onClose}>
-      <View
-        style={[
-          GlobalStyles.container,
-          GlobalStyles.section,
-          GlobalStyles.sectionVertical,
-          ExerciseModalStyles.exerciseModal,
-        ]}
-      >
-        <Pressable
-          onPress={onClose}
-          style={ExerciseModalStyles.exerciseModalClose}
-        >
-          <FontAwesome name={"close"} size={32} color={Colors.textDark} />
-        </Pressable>
+    <>
+      <Modal animationType="slide" visible={visible} onRequestClose={onClose}>
         <View
           style={[
-            GlobalStyles.content,
-            GlobalStyles.contentVertical,
-            ExerciseModalStyles.exerciseModalContent,
+            GlobalStyles.container,
+            GlobalStyles.section,
+            GlobalStyles.sectionVertical,
+            ExerciseModalStyles.exerciseModal,
           ]}
         >
-          <HeadingAtom level={"first"} style={[GlobalStyles.textPrimary]}>
-            {exercise.title}
-          </HeadingAtom>
+          <Pressable
+            onPress={onClose}
+            style={ExerciseModalStyles.exerciseModalClose}
+          >
+            <FontAwesome name={"close"} size={32} color={Colors.textDark} />
+          </Pressable>
+          <View
+            style={[
+              GlobalStyles.content,
+              GlobalStyles.contentVertical,
+              ExerciseModalStyles.exerciseModalContent,
+            ]}
+          >
+            <HeadingAtom level={"first"} style={[GlobalStyles.textPrimary]}>
+              {exercise.title}
+            </HeadingAtom>
 
-          <Image
-            source={require("@/assets/images/temp-gif.gif")}
-            style={ExerciseModalStyles.exerciseModalGif}
-          />
+            <Image
+              source={require("@/assets/images/temp-gif.gif")}
+              style={ExerciseModalStyles.exerciseModalGif}
+            />
 
-          <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
-            <HeadingAtom level={"second"}>Описание</HeadingAtom>
-            <ParagraphAtom>{exercise.description}</ParagraphAtom>
-          </View>
+            <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
+              <HeadingAtom level={"second"}>Описание</HeadingAtom>
+              <ParagraphAtom>{exercise.description}</ParagraphAtom>
+            </View>
 
-          <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
-            <HeadingAtom level={"second"}>Техника выполнения</HeadingAtom>
-            <ParagraphAtom>{exercise.technique}</ParagraphAtom>
-          </View>
+            <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
+              <HeadingAtom level={"second"}>Техника выполнения</HeadingAtom>
+              <ParagraphAtom>{exercise.technique}</ParagraphAtom>
+            </View>
 
-          <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
-            <HeadingAtom level={"second"}>Затрагиваемые мышцы</HeadingAtom>
-            <View style={[GlobalStyles.content, GlobalStyles.contentHorizontal]}>
-              {exercise.muscles.map((muscle) => (
-                <MuscleIconAtom key={muscle.id} type={muscle.title} />
-              ))}
+            <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
+              <HeadingAtom level={"second"}>Затрагиваемые мышцы</HeadingAtom>
+              <View
+                style={[GlobalStyles.content, GlobalStyles.contentHorizontal]}
+              >
+                {exercise.muscles.map((muscle) => (
+                  <Pressable
+                    key={muscle.id}
+                    onPress={() => {
+                      setSelectedMuscle(muscle);
+                      setModalVisible(true);
+                    }}
+                  >
+                    <MuscleIconAtom type={muscle.title} />
+                  </Pressable>
+                ))}
+              </View>
             </View>
           </View>
+          <ButtonAtom
+            title={"Начать выполнение"}
+            type={"primary"}
+            onPress={() => {}}
+          />
         </View>
-        <ButtonAtom
-          title={"Начать выполнение"}
-          type={"primary"}
-          onPress={() => {}}
-        />
-      </View>
-    </Modal>
+      </Modal>
+
+      <MuscleModal
+        muscle={selectedMuscle}
+        visible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
+    </>
   );
 }
