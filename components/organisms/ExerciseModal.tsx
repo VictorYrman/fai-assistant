@@ -31,8 +31,8 @@ type MuscleObject = {
 type ExerciseObject = {
   id: number;
   title: string;
-  category: CategoryObject;
-  muscles: MuscleObject[];
+  exerciseCategory: CategoryObject;
+  muscleCategories: MuscleObject[];
   description: string;
   technique: string;
 };
@@ -78,7 +78,7 @@ export default function ExerciseModal({
             ]}
           >
             <HeadingAtom level={"first"} style={[GlobalStyles.textPrimary]}>
-              {exercise.title}
+              {exercise?.title}
             </HeadingAtom>
 
             <Image
@@ -88,12 +88,12 @@ export default function ExerciseModal({
 
             <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
               <HeadingAtom level={"second"}>Описание</HeadingAtom>
-              <ParagraphAtom>{exercise.description}</ParagraphAtom>
+              <ParagraphAtom>{exercise?.description}</ParagraphAtom>
             </View>
 
             <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
               <HeadingAtom level={"second"}>Техника выполнения</HeadingAtom>
-              <ParagraphAtom>{exercise.technique}</ParagraphAtom>
+              <ParagraphAtom>{exercise?.technique}</ParagraphAtom>
             </View>
 
             <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
@@ -101,7 +101,7 @@ export default function ExerciseModal({
               <View
                 style={[GlobalStyles.content, GlobalStyles.contentHorizontal]}
               >
-                {exercise.muscles.map((muscle) => (
+                {exercise?.muscleCategories.map((muscle) => (
                   <Pressable
                     key={muscle.id}
                     onPress={() => {

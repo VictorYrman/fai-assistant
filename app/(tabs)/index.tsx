@@ -16,13 +16,34 @@ import { useSurvey } from "@/hooks/useSurvey";
 
 // Assets
 import GlobalStyles from "@/assets/styles/global/GlobalStyles";
+import ExerciseCard from "@/components/molecules/ExerciseCard";
+import { getAllExercises } from "@/services/firebaseServices";
 
 export default function Index() {
   const router = useRouter();
   const survey = useSurvey();
+
+  const [exercises, setExercises] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
   const [surveyInfo, setSurveyInfo] = useState(survey.getSurveyInfo());
 
   useEffect(() => {
+    const loadExercises = async () => {
+      setLoading(true);
+
+      try {
+        const data = await getAllExercises();
+        setExercises(data || []);
+      } catch (error) {
+        console.error(error);
+        setExercises([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadExercises();
     const newSurveyInfo = survey.getSurveyInfo();
     setSurveyInfo(newSurveyInfo);
   }, [survey]);
@@ -81,6 +102,15 @@ export default function Index() {
       </View>
       <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
         <HeadingAtom level={"second"}>Список всех упражнений</HeadingAtom>
+        {loading ? (
+          <ParagraphAtom>Упражнения загружаются...</ParagraphAtom>
+        ) : (
+          <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
+            {exercises.map((exercise) => (
+              <ExerciseCard key={exercise?.id} exercise={exercise} />
+            ))}
+          </View>
+        )}
       </View>
     </ScrollView>
   );

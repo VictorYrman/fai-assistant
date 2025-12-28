@@ -27,8 +27,8 @@ type MuscleObject = {
 type ExerciseObject = {
   id: number;
   title: string;
-  category: CategoryObject;
-  muscles: MuscleObject[];
+  exerciseCategory: CategoryObject;
+  muscleCategories: MuscleObject[];
   description: string;
   technique: string;
 };
@@ -54,14 +54,14 @@ export default function ExerciseCard({ exercise }: ExerciseCardProps) {
           level={"third"}
           style={ExerciseCardStyles.exerciseCardTitle}
         >
-          {exercise.title}
+          {exercise?.title}
         </HeadingAtom>
         <View style={[GlobalStyles.content, GlobalStyles.contentHorizontal]}>
           <View style={ExerciseCardStyles.exerciseCardContainerIcon}>
-            <ExerciseIconAtom type={exercise.category.title} />
+            <ExerciseIconAtom type={exercise?.exerciseCategory.title} />
           </View>
           <ParagraphAtom style={ExerciseCardStyles.exerciseCardDescription}>
-            {exercise.description}
+            {exercise?.description}
           </ParagraphAtom>
         </View>
       </Pressable>
