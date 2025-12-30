@@ -10,28 +10,12 @@ import ExerciseModal from "../organisms/ExerciseModal";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
+// Constants
+import { ExerciseObject } from "@/constants/types";
+
 // Assets
 import GlobalStyles from "@/assets/styles/global/GlobalStyles";
 import ExerciseCardStyles from "@/assets/styles/components/molecules/ExerciseCard";
-
-type CategoryObject = {
-  id: number;
-  title: string;
-};
-
-type MuscleObject = {
-  id: number;
-  title: string;
-};
-
-type ExerciseObject = {
-  id: number;
-  title: string;
-  exerciseCategory: CategoryObject;
-  muscleCategories: MuscleObject[];
-  description: string;
-  technique: string;
-};
 
 type ExerciseCardProps = {
   exercise: ExerciseObject;

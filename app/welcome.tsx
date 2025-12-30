@@ -12,7 +12,7 @@ import { useRouter } from "expo-router";
 import GlobalStyles from "@/assets/styles/global/GlobalStyles";
 import WelcomeStyles from "@/assets/styles/screens/Welcome";
 
-export default function Index() {
+export default function Welcome() {
   const router = useRouter();
 
   const onClickEnterSurvey = () => {

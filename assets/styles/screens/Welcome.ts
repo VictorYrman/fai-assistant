@@ -18,7 +18,6 @@ const WelcomeStyles = StyleSheet.create({
   welcomeContainer: {
     borderRadius: 16,
     backgroundColor: Colors.secondaryLight,
-    elevation: 2,
     padding: 12,
   },
   welcomeHeading: {
@@ -27,7 +26,6 @@ const WelcomeStyles = StyleSheet.create({
   welcomeContainerDescription: {
     borderRadius: 16,
     backgroundColor: Colors.background,
-    elevation: 2,
     padding: 12,
   },
   welcomeDescription: {

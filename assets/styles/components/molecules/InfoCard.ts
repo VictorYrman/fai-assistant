@@ -8,7 +8,6 @@ const InfoCardStyles = StyleSheet.create({
   infoCard: {
     borderRadius: 16,
     backgroundColor: Colors.secondaryLight,
-    elevation: 2,
     padding: 12
   },
 });

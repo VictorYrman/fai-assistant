@@ -8,7 +8,6 @@ const ExerciseCardStyles = StyleSheet.create({
     exerciseCard: {
         borderRadius: 16,
         backgroundColor: Colors.secondaryLight,
-        elevation: 2,
         padding: 12,
     },
     exerciseCardTitle: {
@@ -17,7 +16,6 @@ const ExerciseCardStyles = StyleSheet.create({
     exerciseCardContainerIcon: {
         borderRadius: 16,
         backgroundColor: Colors.background,
-        elevation: 2,
         padding: 12,
     },
     exerciseCardDescription: {

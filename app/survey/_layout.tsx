@@ -14,6 +14,7 @@ export default function SurveyLayout() {
         style={SurveyStyles.surveyImage}
       />
       <Stack>
+        <Stack.Screen name="name" options={{ headerShown: false }} />
         <Stack.Screen name="gender" options={{ headerShown: false }} />
         <Stack.Screen name="age" options={{ headerShown: false }} />
         <Stack.Screen name="height" options={{ headerShown: false }} />

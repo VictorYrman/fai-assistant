@@ -1,15 +1,15 @@
 // Atoms Components
-import HeadingAtom from "@/components/atoms/HeadingAtom";
 import ButtonAtom from "@/components/atoms/ButtonAtom";
+import HeadingAtom from "@/components/atoms/HeadingAtom";
 
 // Molecules Components
 import GenderCard from "@/components/molecules/GenderCard";
 
 // External Dependencies
-import { useState } from "react";
-import { Pressable, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useRouter } from "expo-router";
+import { useState } from "react";
+import { Pressable, View } from "react-native";
 
 // Hooks
 import { useSurvey } from "@/hooks/useSurvey";
@@ -27,7 +27,9 @@ export default function Gender() {
 
   const [gender, setGender] = useState<string>(survey.getGenderValue());
 
-  const onClickPreviousQuestion = () => {};
+  const onClickPreviousQuestion = () => {
+    router.replace("/survey/name");
+  };
 
   const onClickNextQuestion = () => {
     if (!gender) {

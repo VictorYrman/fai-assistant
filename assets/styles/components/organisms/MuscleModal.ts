@@ -9,8 +9,12 @@ const MuscleModalStyles = StyleSheet.create({
     alignSelf: "flex-end",
   },
   muscleModalContent: {
-    flex: 1
-  }
+    flex: 1,
+  },
+  muscleModalImage: {
+    width: "100%",
+    height: 200,
+  },
 });
 
 export default MuscleModalStyles;

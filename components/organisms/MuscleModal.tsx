@@ -1,17 +1,19 @@
+// Atoms Components
+import HeadingAtom from "../atoms/HeadingAtom";
+
 // External Dependencies
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { Modal, Pressable, View } from "react-native";
+
+// Constants
+import Colors from "@/constants/colors";
+import { MuscleObject } from "@/constants/types";
 
 // Assets
 import MuscleModalStyles from "@/assets/styles/components/organisms/MuscleModal";
 import GlobalStyles from "@/assets/styles/global/GlobalStyles";
-import Colors from "@/constants/colors";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import HeadingAtom from "../atoms/HeadingAtom";
-
-type MuscleObject = {
-  id: number;
-  title: string;
-};
+import MuscleIconAtom from "../atoms/MuscleIconAtom";
+import ParagraphAtom from "../atoms/ParagraphAtom";
 
 type MuscleModalProps = {
   muscle: MuscleObject | null;
@@ -47,6 +49,16 @@ export default function MuscleModal({
           <HeadingAtom level={"first"} style={[GlobalStyles.textPrimary]}>
             {muscle?.title}
           </HeadingAtom>
+
+          <MuscleIconAtom
+            type={muscle?.title}
+            style={[MuscleModalStyles.muscleModalImage]}
+          />
+
+          <View style={[GlobalStyles.content, GlobalStyles.contentVertical]}>
+            <HeadingAtom level={"second"}>Описание:</HeadingAtom>
+            <ParagraphAtom>{muscle?.description}</ParagraphAtom>
+          </View>
         </View>
       </View>
     </Modal>

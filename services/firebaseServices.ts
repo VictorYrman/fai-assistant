@@ -1,5 +1,5 @@
 import { db } from "@/config/firebase";
-import { collection, getDocs, getDoc } from "firebase/firestore";
+import { collection, getDoc, getDocs } from "firebase/firestore";
 
 export const getAllExerciseCategories = async () => {
   try {
@@ -43,6 +43,10 @@ export const getAllExercises = async () => {
     for (const doc of querySnapshot.docs) {
       const exerciseData = {
         id: doc.id,
+        exerciseCategory: doc.data().exerciseCategory,
+        muscleCategories: doc.data().muscleCategories,
+        description: doc.data().description,
+        technique: doc.data().technique,
         ...doc.data(),
       };
 
@@ -55,11 +59,13 @@ export const getAllExercises = async () => {
         for (const ref of exerciseData.muscleCategories) {
           if (ref && ref.path) {
             try {
-              const muscleDoc = await getDoc(ref);
+              const muscleDoc: any = await getDoc(ref);
 
               if (muscleDoc.exists()) {
                 resolvedMuscleCategories.push({
                   id: muscleDoc.id,
+                  title: muscleDoc.data().title,
+                  description: muscleDoc.data().description,
                   ...muscleDoc.data(),
                 });
               }
@@ -75,7 +81,8 @@ export const getAllExercises = async () => {
 
       if (exerciseData.exerciseCategory) {
         try {
-          const categoryDoc = await getDoc(exerciseData.exerciseCategory);
+          const categoryDoc: any = await getDoc(exerciseData.exerciseCategory);
+          
           if (categoryDoc.exists()) {
             exerciseData.exerciseCategory = {
               id: categoryDoc.id,

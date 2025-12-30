@@ -5,7 +5,6 @@ const ButtonStyles = StyleSheet.create({
     button: {
         alignItems: "center",
         borderRadius: 16,
-        elevation: 2,
         padding: 12
     },
     buttonPrimary: {

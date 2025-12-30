@@ -1,15 +1,15 @@
 // Atoms Components
-import ButtonAtom from "@/components/atoms/ButtonAtom";
 import HeadingAtom from "@/components/atoms/HeadingAtom";
+import ButtonAtom from "@/components/atoms/ButtonAtom";
 
 // External Dependencies
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Pressable, TextInput, View } from "react-native";
+import { useRouter } from "expo-router";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 // Services
-import { isAgeValid } from "@/services/validation";
+import { isNameValid } from "@/services/validation";
 
 // Hooks
 import { useSurvey } from "@/hooks/useSurvey";
@@ -21,31 +21,27 @@ import Colors from "@/constants/colors";
 import GlobalStyles from "@/assets/styles/global/GlobalStyles";
 import SurveyStyles from "@/assets/styles/screens/Survey";
 
-export default function Age() {
+export default function Name() {
   const router = useRouter();
   const survey = useSurvey();
 
-  const [age, setAge] = useState<string>(survey.getAgeValue());
-
-  const onClickPreviousQuestion = () => {
-    router.replace("/survey/gender");
-  };
+  const [name, setName] = useState<string>(survey.getNameValue());
 
   const onClickNextQuestion = () => {
-    if (!age) {
+    if (!name) {
       return;
     }
 
-    const isValid = isAgeValid(age);
+    const isValid = isNameValid(name);
 
     if (isValid) {
-      router.replace("/survey/height");
+      router.replace("/survey/gender");
     }
   };
 
-  const onChangeInputHandler = (age: string) => {
-    setAge(age);
-    survey.setAgeValue(age);
+  const onChangeInputHandler = (name: string) => {
+    setName(name);
+    survey.setNameValue(name);
   };
 
   return (
@@ -63,7 +59,7 @@ export default function Age() {
           SurveyStyles.surveyHeader,
         ]}
       >
-        <Pressable onPress={onClickPreviousQuestion}>
+        <Pressable>
           <FontAwesome name="arrow-left" size={32} color={Colors.textDark} />
         </Pressable>
         <HeadingAtom level={"first"} style={SurveyStyles.surveyLogoTitle}>
@@ -77,17 +73,18 @@ export default function Age() {
           SurveyStyles.surveyContent,
         ]}
       >
-        <FontAwesome name="birthday-cake" size={64} color={Colors.textDark} />
-        <HeadingAtom level={"second"}>Укажите возраст</HeadingAtom>
+        <FontAwesome name="user" size={64} color={Colors.textDark} />
+        <HeadingAtom level={"second"}>Укажите имя</HeadingAtom>
       </View>
+
       <View style={SurveyStyles.surveyInput}>
         <TextInput
           style={SurveyStyles.input}
           onChangeText={onChangeInputHandler}
-          value={age}
-          keyboardType="numeric"
+          value={name}
         />
       </View>
+
       <ButtonAtom title="Далее" type="primary" onPress={onClickNextQuestion} />
     </View>
   );

@@ -1,12 +1,12 @@
 // Atoms Components
-import HeadingAtom from "@/components/atoms/HeadingAtom";
 import ButtonAtom from "@/components/atoms/ButtonAtom";
+import HeadingAtom from "@/components/atoms/HeadingAtom";
 
 // External Dependencies
-import { useState } from "react";
-import { Pressable, TextInput, View } from "react-native";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useRouter } from "expo-router";
+import { useState } from "react";
+import { Pressable, TextInput, View } from "react-native";
 
 // Hooks
 import { useSurvey } from "@/hooks/useSurvey";
@@ -17,6 +17,7 @@ import Colors from "@/constants/colors";
 // Assets
 import GlobalStyles from "@/assets/styles/global/GlobalStyles";
 import SurveyStyles from "@/assets/styles/screens/Survey";
+import { isHeightValid } from "@/services/validation";
 
 export default function Height() {
   const router = useRouter();
@@ -33,7 +34,11 @@ export default function Height() {
       return;
     }
 
-    router.replace("/survey/weight");
+    const isValid = isHeightValid(height);
+
+    if (isValid) {
+      router.replace("/survey/weight");
+    }
   };
 
   const onChangeInputHandler = (height: string) => {

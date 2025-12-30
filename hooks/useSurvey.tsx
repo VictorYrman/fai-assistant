@@ -1,4 +1,4 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
+// External Dependencies
 import {
   createContext,
   ReactNode,
@@ -6,23 +6,20 @@ import {
   useEffect,
   useState,
 } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-type SurveyInfoObject = {
-  gender: string;
-  age: string;
-  height: string;
-  weight: string;
-  goal: string;
-  level: string;
-};
+// Constants
+import { SurveyInfoObject } from "@/constants/types";
 
 type SurveyContextType = {
+  setNameValue: (name: string) => void;
   setGenderValue: (gender: string) => void;
   setAgeValue: (age: string) => void;
   setHeightValue: (height: string) => void;
   setWeightValue: (weight: string) => void;
   setGoalValue: (goal: string) => void;
   setLevelValue: (level: string) => void;
+  getNameValue: () => string;
   getGenderValue: () => string;
   getAgeValue: () => string;
   getHeightValue: () => string;
@@ -30,6 +27,7 @@ type SurveyContextType = {
   getGoalValue: () => string;
   getLevelValue: () => string;
   getSurveyInfo: () => SurveyInfoObject | null;
+  resetSurveyInfo: () => void;
 };
 
 const SurveyContext = createContext<SurveyContextType | undefined>(undefined);
@@ -42,14 +40,16 @@ export const useSurvey = () => {
   return context;
 };
 
-const GENDERKEY = "gender";
-const AGEKEY = "age";
-const HEIGHTKEY = "height";
-const WEIGHTKEY = "weight";
-const GOALKEY = "goal";
-const LEVELKEY = "level";
+const NAME_KEY = "name";
+const GENDER_KEY = "gender";
+const AGE_KEY = "age";
+const HEIGHT_KEY = "height";
+const WEIGHT_KEY = "weight";
+const GOAL_KEY = "goal";
+const LEVEL_KEY = "level";
 
 export const SurveyProvider = ({ children }: { children: ReactNode }) => {
+  const [name, setName] = useState<string>("");
   const [gender, setGender] = useState<string>("");
   const [age, setAge] = useState<string>("");
   const [height, setHeight] = useState<string>("");
@@ -70,13 +70,15 @@ export const SurveyProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const loadSurveyInfo = async () => {
       try {
-        const gender = (await loadSurveyValueFromStorage(GENDERKEY)) || "";
-        const age = (await loadSurveyValueFromStorage(AGEKEY)) || "";
-        const height = (await loadSurveyValueFromStorage(HEIGHTKEY)) || "";
-        const weight = (await loadSurveyValueFromStorage(WEIGHTKEY)) || "";
-        const goal = (await loadSurveyValueFromStorage(GOALKEY)) || "";
-        const level = (await loadSurveyValueFromStorage(LEVELKEY)) || "";
+        const name = (await loadSurveyValueFromStorage(NAME_KEY)) || "";
+        const gender = (await loadSurveyValueFromStorage(GENDER_KEY)) || "";
+        const age = (await loadSurveyValueFromStorage(AGE_KEY)) || "";
+        const height = (await loadSurveyValueFromStorage(HEIGHT_KEY)) || "";
+        const weight = (await loadSurveyValueFromStorage(WEIGHT_KEY)) || "";
+        const goal = (await loadSurveyValueFromStorage(GOAL_KEY)) || "";
+        const level = (await loadSurveyValueFromStorage(LEVEL_KEY)) || "";
 
+        setName(name);
         setGender(gender);
         setAge(age);
         setHeight(height);
@@ -91,35 +93,62 @@ export const SurveyProvider = ({ children }: { children: ReactNode }) => {
     loadSurveyInfo();
   }, []);
 
+  const resetSurveyInfo = () => {
+    saveSurveyValueToStorage(NAME_KEY, "");
+    saveSurveyValueToStorage(GENDER_KEY, "");
+    saveSurveyValueToStorage(AGE_KEY, "");
+    saveSurveyValueToStorage(HEIGHT_KEY, "");
+    saveSurveyValueToStorage(WEIGHT_KEY, "");
+    saveSurveyValueToStorage(GOAL_KEY, "");
+    saveSurveyValueToStorage(LEVEL_KEY, "");
+
+    setName("");
+    setGender("");
+    setAge("");
+    setHeight("");
+    setWeight("");
+    setGoal("");
+    setLevel("");
+  };
+
+  const setNameValue = (name: string) => {
+    setName(name);
+    saveSurveyValueToStorage(NAME_KEY, name);
+  }
+
   const setGenderValue = (gender: string) => {
     setGender(gender);
-    saveSurveyValueToStorage(GENDERKEY, gender);
+    saveSurveyValueToStorage(GENDER_KEY, gender);
   };
 
   const setAgeValue = (age: string) => {
     setAge(age);
-    saveSurveyValueToStorage(AGEKEY, age);
+    saveSurveyValueToStorage(AGE_KEY, age);
   };
 
   const setHeightValue = (height: string) => {
     setHeight(height);
-    saveSurveyValueToStorage(HEIGHTKEY, height);
+    saveSurveyValueToStorage(HEIGHT_KEY, height);
   };
 
   const setWeightValue = (weight: string) => {
     setWeight(weight);
-    saveSurveyValueToStorage(WEIGHTKEY, weight);
+    saveSurveyValueToStorage(WEIGHT_KEY, weight);
   };
 
   const setGoalValue = (goal: string) => {
     setGoal(goal);
-    saveSurveyValueToStorage(GOALKEY, goal);
+    saveSurveyValueToStorage(GOAL_KEY, goal);
   };
 
   const setLevelValue = (level: string) => {
     setLevel(level);
-    saveSurveyValueToStorage(LEVELKEY, level);
+    saveSurveyValueToStorage(LEVEL_KEY, level);
   };
+
+  const getNameValue = () => {
+    return name;
+  }
 
   const getGenderValue = () => {
     return gender;
@@ -147,6 +176,7 @@ export const SurveyProvider = ({ children }: { children: ReactNode }) => {
 
   const getSurveyInfo = () => {
     if (
+      name === "" ||
       gender === "" ||
       age === "" ||
       height === "" ||
@@ -158,6 +188,7 @@ export const SurveyProvider = ({ children }: { children: ReactNode }) => {
     }
 
     const surveyInfo = {
+      name,
       gender,
       age,
       height,
@@ -172,12 +203,14 @@ export const SurveyProvider = ({ children }: { children: ReactNode }) => {
   return (
     <SurveyContext.Provider
       value={{
+        setNameValue,
         setGenderValue,
         setAgeValue,
         setHeightValue,
         setWeightValue,
         setGoalValue,
         setLevelValue,
+        getNameValue,
         getGenderValue,
         getAgeValue,
         getHeightValue,
@@ -185,6 +218,7 @@ export const SurveyProvider = ({ children }: { children: ReactNode }) => {
         getGoalValue,
         getLevelValue,
         getSurveyInfo,
+        resetSurveyInfo,
       }}
     >
       {children}
